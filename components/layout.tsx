@@ -1,13 +1,13 @@
-import React from "react";
-import Link from "next/link";
-import { cls } from "../libs/utils";
-import { useRouter } from "next/router";
+import React from "react"
+import Link from "next/link"
+import { cls } from "../libs/client/utils"
+import { useRouter } from "next/router"
 
 interface LayoutProps {
-  title?: string;
-  canGoBack?: boolean;
-  hasTabBar?: boolean;
-  children: React.ReactNode;
+  title?: string
+  canGoBack?: boolean
+  hasTabBar?: boolean
+  children: React.ReactNode
 }
 
 export default function Layout({
@@ -16,10 +16,10 @@ export default function Layout({
   hasTabBar,
   children,
 }: LayoutProps) {
-  const router = useRouter();
+  const router = useRouter()
   const onClick = () => {
-    router.back();
-  };
+    router.back()
+  }
   return (
     <div>
       <div className="bg-white w-full h-12 max-w-xl justify-center text-lg px-10 font-medium  fixed text-gray-800 border-b top-0  flex items-center">
@@ -181,5 +181,5 @@ export default function Layout({
         </nav>
       ) : null}
     </div>
-  );
+  )
 }

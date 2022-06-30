@@ -1,9 +1,9 @@
-import { cls } from "../libs/utils";
+import { cls } from "../libs/client/utils"
 
 interface MessageProps {
-  message: string;
-  reversed?: boolean;
-  avatarUrl?: string;
+  message: string
+  reversed?: boolean
+  avatarUrl?: string
 }
 
 export default function Message({
@@ -23,5 +23,5 @@ export default function Message({
         <p>{message}</p>
       </div>
     </div>
-  );
+  )
 }

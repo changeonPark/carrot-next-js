@@ -1,9 +1,9 @@
-import { cls } from "../libs/utils";
+import { cls } from "../libs/client/utils"
 
 interface ButtonProps {
-  large?: boolean;
-  text: string;
-  [key: string]: any;
+  large?: boolean
+  text: string
+  [key: string]: any
 }
 
 export default function Button({
@@ -22,5 +22,5 @@ export default function Button({
     >
       {text}
     </button>
-  );
+  )
 }
