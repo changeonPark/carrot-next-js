@@ -3,7 +3,7 @@ import client from "@libs/server/client"
 import withHandler, { ResponseType } from "@libs/server/withHandler"
 import twilio from "twilio"
 
-const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN)
+const twilioClient = twilio(process.env.TWILIO_SID!, process.env.TWILIO_TOKEN!)
 
 /*
   -> phone # -> User?
@@ -19,7 +19,9 @@ const handler = async (
   const { email, phone } = req.body
 
   const user = phone ? { phone: +phone } : email ? { email } : null
+
   if (!user) return res.status(400).json({ ok: false })
+
   const payload = Math.floor(100000 + Math.random() * 900000) + ""
   const token = await client.token.create({
     data: {
@@ -37,7 +39,15 @@ const handler = async (
       },
     },
   })
-  console.log(token)
+
+  if (phone) {
+    const message = await twilioClient.messages.create({
+      messagingServiceSid: process.env.TWILIO_SERVICE_SID!,
+      to: process.env.MY_PHONE_NUMBER!,
+      body: `인증 번호 발송\n ${payload}.`,
+    })
+    console.log("twilio message: \n", message)
+  }
 
   return res.json({
     ok: true,
