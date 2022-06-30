@@ -2,8 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next"
 import client from "@libs/server/client"
 import withHandler, { ResponseType } from "@libs/server/withHandler"
 import twilio from "twilio"
+import mail from "@sendgrid/mail"
 
 const twilioClient = twilio(process.env.TWILIO_SID!, process.env.TWILIO_TOKEN!)
+mail.setApiKey(process.env.SEND_GRID_API_KEY!)
 
 /*
   -> phone # -> User?
@@ -47,6 +49,16 @@ const handler = async (
       body: `인증 번호 발송\n ${payload}.`,
     })
     console.log("twilio message: \n", message)
+  } else if (email) {
+    const email = await mail.send({
+      from: "cgp@altava.com",
+      to: "qkrcksrjs@gmail.com",
+      subject: "Carrot Market Verification Email",
+      text: `Your token is ${payload}`,
+      html: `<strong>HTML Token is ${payload}</strong>`,
+    })
+
+    console.log(email)
   }
 
   return res.json({
