@@ -1,5 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next"
 
+export type ResponseType = {
+  ok: boolean
+  [key: string]: any
+}
+
 type HandlerType = (req: NextApiRequest, res: NextApiResponse) => Promise<void>
 
 const withHandler = (method: "GET" | "POST" | "DELETE", fn: HandlerType) => {

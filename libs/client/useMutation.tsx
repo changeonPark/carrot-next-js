@@ -2,8 +2,8 @@ import { useState } from "react"
 
 type Status<T> = {
   loading: boolean
-  data: T | undefined
-  error: any | undefined
+  data?: T
+  error?: any
 }
 
 const useMutation = <T,>(url: string): [(data: T) => void, Status<any>] => {
@@ -12,11 +12,11 @@ const useMutation = <T,>(url: string): [(data: T) => void, Status<any>] => {
     data: undefined,
     error: undefined,
   })
-  const [loading, setLoading] = useState(false)
-  const [data, setData] = useState<any | undefined>(undefined)
-  const [error, setError] = useState<any | undefined>(undefined)
   const mutation = (data: T) => {
-    setLoading(true)
+    setState(prev => ({
+      ...prev,
+      loading: true,
+    }))
 
     fetch(url, {
       method: "POST",
@@ -27,12 +27,11 @@ const useMutation = <T,>(url: string): [(data: T) => void, Status<any>] => {
     })
       .then(response => response.json().catch(() => {}))
       // .then((json) => setData(json))
-      .then(setData)
-      .catch(setError)
-      .finally(() => setLoading(false))
+      .then(data => setState(prev => ({ ...prev, data, loading: false })))
+      .catch(error => setState(prev => ({ ...prev, error, loading: false })))
   }
 
-  return [mutation, { loading, data, error }]
+  return [mutation, { ...state }]
 }
 
 export default useMutation

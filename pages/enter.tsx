@@ -1,5 +1,5 @@
-import type { NextPage } from "next"
 import { useState } from "react"
+import type { NextPage } from "next"
 import { useForm } from "react-hook-form"
 import useMutation from "@libs/client/useMutation"
 import { cls } from "@libs/client/utils"
@@ -15,7 +15,6 @@ const Enter: NextPage = () => {
 
   const { register, reset, handleSubmit } = useForm<EnterForm>()
   const [method, setMethod] = useState<"email" | "phone">("email")
-  const [submitting, setSubmitting] = useState(false)
 
   const onEmailClick = () => {
     reset()
@@ -83,9 +82,11 @@ const Enter: NextPage = () => {
               register={register("phone", { required: true })}
             />
           ) : null}
-          {method === "email" ? <Button text={"Get login link"} /> : null}
+          {method === "email" ? (
+            <Button text={loading ? "Loading" : "Get login link"} />
+          ) : null}
           {method === "phone" ? (
-            <Button text={submitting ? "Loading" : "Get one-time password"} />
+            <Button text={loading ? "Loading" : "Get one-time password"} />
           ) : null}
         </form>
 
