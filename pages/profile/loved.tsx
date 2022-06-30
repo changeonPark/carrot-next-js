@@ -1,6 +1,5 @@
-import type { NextPage } from "next";
-import Item from "../../components/item";
-import Layout from "../../components/layout";
+import type { NextPage } from "next"
+import { Item, Layout } from "@components/index"
 
 const Loved: NextPage = () => {
   return (
@@ -18,7 +17,7 @@ const Loved: NextPage = () => {
         ))}
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default Loved;
+export default Loved

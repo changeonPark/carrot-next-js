@@ -1,8 +1,5 @@
-import type { NextPage } from "next";
-import Button from "../../components/button";
-import Input from "../../components/input";
-import Layout from "../../components/layout";
-import TextArea from "../../components/textarea";
+import type { NextPage } from "next"
+import { Button, Input, Layout, TextArea } from "@components/index"
 
 const Create: NextPage = () => {
   return (
@@ -21,7 +18,7 @@ const Create: NextPage = () => {
         <Button text="Go live" />
       </form>
     </Layout>
-  );
-};
+  )
+}
 
-export default Create;
+export default Create

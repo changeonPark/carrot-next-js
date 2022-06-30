@@ -1,7 +1,6 @@
-import type { NextPage } from "next";
-import Link from "next/link";
-import FloatingButton from "../../components/floating-button";
-import Layout from "../../components/layout";
+import type { NextPage } from "next"
+import Link from "next/link"
+import { FloatingButton, Layout } from "@components/index"
 
 const Live: NextPage = () => {
   return (
@@ -35,7 +34,7 @@ const Live: NextPage = () => {
         </FloatingButton>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default Live;
+export default Live

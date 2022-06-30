@@ -1,6 +1,5 @@
-import type { NextPage } from "next";
-import Item from "../../components/item";
-import Layout from "../../components/layout";
+import type { NextPage } from "next"
+import { Item, Layout } from "@components/index"
 
 const Sold: NextPage = () => {
   return (
@@ -18,7 +17,7 @@ const Sold: NextPage = () => {
         ))}
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default Sold;
+export default Sold

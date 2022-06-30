@@ -1,6 +1,5 @@
-import type { NextPage } from "next";
-import Layout from "../../components/layout";
-import Message from "../../components/message";
+import type { NextPage } from "next"
+import { Layout, Message } from "@components/index"
 
 const Stream: NextPage = () => {
   return (
@@ -44,7 +43,7 @@ const Stream: NextPage = () => {
         </div>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default Stream;
+export default Stream

@@ -1,7 +1,6 @@
-import type { NextPage } from "next";
-import Link from "next/link";
-import FloatingButton from "../../components/floating-button";
-import Layout from "../../components/layout";
+import type { NextPage } from "next"
+import Link from "next/link"
+import { FloatingButton, Layout } from "@components/index"
 
 const Community: NextPage = () => {
   return (
@@ -78,7 +77,7 @@ const Community: NextPage = () => {
         </FloatingButton>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default Community;
+export default Community

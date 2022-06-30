@@ -1,7 +1,5 @@
-import type { NextPage } from "next";
-import Button from "../../components/button";
-import Input from "../../components/input";
-import Layout from "../../components/layout";
+import type { NextPage } from "next"
+import { Button, Input, Layout } from "@components/index"
 
 const EditProfile: NextPage = () => {
   return (
@@ -33,7 +31,7 @@ const EditProfile: NextPage = () => {
         <Button text="Update profile" />
       </form>
     </Layout>
-  );
-};
+  )
+}
 
-export default EditProfile;
+export default EditProfile

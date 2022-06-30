@@ -1,6 +1,5 @@
-import type { NextPage } from "next";
-import Layout from "../../components/layout";
-import Message from "../../components/message";
+import { Message, Layout } from "@components/index"
+import type { NextPage } from "next"
 
 const ChatDetail: NextPage = () => {
   return (
@@ -24,7 +23,7 @@ const ChatDetail: NextPage = () => {
         </form>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default ChatDetail;
+export default ChatDetail

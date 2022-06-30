@@ -1,6 +1,5 @@
-import type { NextPage } from "next";
-import Layout from "../../components/layout";
-import TextArea from "../../components/textarea";
+import type { NextPage } from "next"
+import { Layout, TextArea } from "@components/index"
 
 const CommunityPostDetail: NextPage = () => {
   return (
@@ -86,7 +85,7 @@ const CommunityPostDetail: NextPage = () => {
         </div>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default CommunityPostDetail;
+export default CommunityPostDetail

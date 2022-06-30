@@ -1,8 +1,5 @@
-import type { NextPage } from "next";
-import Button from "../../components/button";
-import Input from "../../components/input";
-import Layout from "../../components/layout";
-import TextArea from "../../components/textarea";
+import type { NextPage } from "next"
+import { Button, Input, Layout, TextArea } from "@components/index"
 
 const Upload: NextPage = () => {
   return (
@@ -40,7 +37,7 @@ const Upload: NextPage = () => {
         <Button text="Upload item" />
       </form>
     </Layout>
-  );
-};
+  )
+}
 
-export default Upload;
+export default Upload

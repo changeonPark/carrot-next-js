@@ -1,6 +1,5 @@
-import type { NextPage } from "next";
-import Button from "../../components/button";
-import Layout from "../../components/layout";
+import type { NextPage } from "next"
+import { Button, Layout } from "@components/index"
 
 const ItemDetail: NextPage = () => {
   return (
@@ -66,7 +65,7 @@ const ItemDetail: NextPage = () => {
         </div>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default ItemDetail;
+export default ItemDetail

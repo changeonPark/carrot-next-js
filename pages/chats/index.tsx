@@ -1,6 +1,6 @@
-import type { NextPage } from "next";
-import Link from "next/link";
-import Layout from "../../components/layout";
+import type { NextPage } from "next"
+import Link from "next/link"
+import { Layout } from "@components/index"
 
 const Chats: NextPage = () => {
   return (
@@ -21,7 +21,7 @@ const Chats: NextPage = () => {
         ))}
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default Chats;
+export default Chats

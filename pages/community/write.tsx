@@ -1,7 +1,5 @@
-import type { NextPage } from "next";
-import Button from "../../components/button";
-import Layout from "../../components/layout";
-import TextArea from "../../components/textarea";
+import type { NextPage } from "next"
+import { Button, TextArea, Layout } from "@components/index"
 
 const Write: NextPage = () => {
   return (
@@ -11,7 +9,7 @@ const Write: NextPage = () => {
         <Button text="Submit" />
       </form>
     </Layout>
-  );
-};
+  )
+}
 
-export default Write;
+export default Write
