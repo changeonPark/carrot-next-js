@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 
-export type ResponseType = {
+export type Response = {
   ok: boolean
   [key: string]: any
 }
