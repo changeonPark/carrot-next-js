@@ -43,22 +43,20 @@ const handler = async (
   })
 
   if (phone) {
-    const message = await twilioClient.messages.create({
-      messagingServiceSid: process.env.TWILIO_SERVICE_SID!,
-      to: process.env.MY_PHONE_NUMBER!,
-      body: `인증 번호 발송\n ${payload}.`,
-    })
-    console.log("twilio message: \n", message)
+    // const message = await twilioClient.messages.create({
+    //   messagingServiceSid: process.env.TWILIO_SERVICE_SID!,
+    //   to: process.env.MY_PHONE_NUMBER!,
+    //   body: `인증 번호 발송\n ${payload}.`,
+    // })
+    // console.log("twilio message: \n", message)
   } else if (email) {
-    const email = await mail.send({
-      from: "cgp@altava.com",
-      to: "qkrcksrjs@gmail.com",
-      subject: "Carrot Market Verification Email",
-      text: `Your token is ${payload}`,
-      html: `<strong>HTML Token is ${payload}</strong>`,
-    })
-
-    console.log(email)
+    // const email = await mail.send({
+    //   from: "cgp@altava.com",
+    //   to: "qkrcksrjs@gmail.com",
+    //   subject: "Carrot Market Verification Email",
+    //   text: `Your token is ${payload}`,
+    //   html: `<strong>HTML Token is ${payload}</strong>`,
+    // })
   }
 
   return res.json({

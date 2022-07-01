@@ -1,13 +1,13 @@
 import { useState } from "react"
 
-type Status<T> = {
+type Status<R> = {
   loading: boolean
-  data?: T
+  data?: R
   error?: any
 }
 
-const useMutation = <T,>(url: string): [(data: T) => void, Status<any>] => {
-  const [state, setState] = useState<Status<any>>({
+const useMutation = <T, R>(url: string): [(data: T) => void, Status<R>] => {
+  const [state, setState] = useState<Status<R>>({
     loading: false,
     data: undefined,
     error: undefined,
