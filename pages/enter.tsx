@@ -1,9 +1,10 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { NextPage } from "next"
 import { useForm } from "react-hook-form"
 import useMutation from "@libs/client/useMutation"
 import { cls } from "@libs/client/utils"
 import { Button, Input } from "@components/index"
+import { useRouter } from "next/router"
 
 type EnterForm = {
   email?: string
@@ -53,6 +54,12 @@ const Enter: NextPage = () => {
     if (tokenLoading) return
     confirmToken(validForm)
   }
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if (tokenData?.ok) router.push("/")
+  }, [tokenData, router])
 
   console.log(loading, data, error)
   return (

@@ -1,11 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-
-export type Response = {
-  ok: boolean
-  [key: string]: any
-}
-
-type HandlerType = (req: NextApiRequest, res: NextApiResponse) => Promise<void>
+import { HandlerType } from "./withApiSession"
 
 const withHandler = (method: "GET" | "POST" | "DELETE", fn: HandlerType) => {
   return async function (req: NextApiRequest, res: NextApiResponse) {

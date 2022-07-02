@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import client from "@libs/server/client"
-import withHandler, { Response } from "@libs/server/withHandler"
+import { Response } from "@libs/server/withApiSession"
+import withHandler from "@libs/server/withHandler"
 import twilio from "twilio"
 import mail from "@sendgrid/mail"
 
@@ -17,7 +18,7 @@ mail.setApiKey(process.env.SEND_GRID_API_KEY!)
 const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   const { email, phone } = req.body
 
-  const user = phone ? { phone: +phone } : email ? { email } : null
+  const user = phone ? { phone } : email ? { email } : null
 
   if (!user) return res.status(400).json({ ok: false })
 
