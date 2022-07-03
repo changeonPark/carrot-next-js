@@ -1,23 +1,18 @@
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+import useSWR from "swr"
 
 const useUser = () => {
-  const [user, setUser] = useState()
+  const { data, error } = useSWR("/api/users/me")
   const router = useRouter()
 
   useEffect(() => {
-    fetch("/api/users/me")
-      .then(response => response.json())
-      .then(data => {
-        if (!data.ok) {
-          return router.replace("/enter")
-        }
+    if (data && !data.ok) {
+      router.replace("/enter")
+    }
+  }, [data, router])
 
-        setUser(data.profile)
-      })
-  }, [router])
-
-  return user
+  return { user: data?.profile, isLoading: !data && !error }
 }
 
 export default useUser
