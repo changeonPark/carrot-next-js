@@ -1,9 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import withApiSession, { Response } from "@libs/server/withApiSession"
+import withApiSession, { ResponseType } from "@libs/server/withApiSession"
 import withHandler from "@libs/server/withHandler"
 import client from "@libs/server/client"
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseType>
+) => {
   const { token: payload } = req.body
   console.log("confirm file payload", payload)
   const token = await client.token.findUnique({
@@ -27,4 +30,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   res.json({ ok: true })
 }
 
-export default withApiSession(withHandler("POST", handler))
+export default withApiSession(withHandler({ method: "POST", handler }))

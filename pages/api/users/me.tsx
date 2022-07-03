@@ -1,9 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import withHandler from "@libs/server/withHandler"
 import client from "@libs/server/client"
-import withApiSession, { Response } from "@libs/server/withApiSession"
+import withApiSession, { ResponseType } from "@libs/server/withApiSession"
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseType>
+) => {
   const id = req.session.user?.id
   const profile = await client.user.findUnique({
     where: { id },
@@ -15,4 +18,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   })
 }
 
-export default withApiSession(withHandler("GET", handler))
+export default withApiSession(withHandler({ method: "GET", handler }))

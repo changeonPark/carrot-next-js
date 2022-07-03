@@ -8,14 +8,14 @@ declare module "iron-session" {
     }
   }
 }
-export type Response = {
+export type ResponseType = {
   ok: boolean
   [key: string]: any
 }
 
 export type HandlerType = (
   req: NextApiRequest,
-  res: NextApiResponse<Response>
+  res: NextApiResponse<ResponseType>
 ) => Promise<void | NextApiResponse<any>>
 
 const cookieOptions = {
