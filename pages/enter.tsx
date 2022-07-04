@@ -25,6 +25,8 @@ const Enter: NextPage = () => {
     MutationResponse
   >("/api/users/enter")
 
+  console.log(data)
+
   const [
     confirmToken,
     { loading: tokenLoading, data: tokenData, error: tokenError },

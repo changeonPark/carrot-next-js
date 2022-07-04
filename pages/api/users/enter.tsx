@@ -65,7 +65,7 @@ const handler = async (
   })
 }
 
-export default withHandler({ method: "POST", handler, isPublic: true })
+export default withHandler({ methods: ["POST"], handler, isPublic: true })
 
 // const user = await client.user.upsert({
 //   where: {

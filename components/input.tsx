@@ -4,10 +4,9 @@ interface InputProps {
   label: string
   name: string
   type: string
-  required?: true
-  placeholder?: string
   kind?: "text" | "phone" | "price"
-  register?: UseFormRegisterReturn
+  register: UseFormRegisterReturn
+  [key: string]: any
 }
 
 export default function Input({
@@ -16,8 +15,6 @@ export default function Input({
   kind = "text",
   register,
   type,
-  required,
-  placeholder,
 }: InputProps) {
   return (
     <div>

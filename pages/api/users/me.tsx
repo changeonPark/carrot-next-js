@@ -11,6 +11,12 @@ const handler = async (
   const profile = await client.user.findUnique({
     where: { id },
   })
+  if (!profile) {
+    res.json({
+      ok: false,
+      message: "none user",
+    })
+  }
 
   res.json({
     ok: true,
@@ -18,4 +24,4 @@ const handler = async (
   })
 }
 
-export default withApiSession(withHandler({ method: "GET", handler }))
+export default withApiSession(withHandler({ methods: ["GET"], handler }))
