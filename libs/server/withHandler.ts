@@ -21,7 +21,7 @@ const withHandler = ({ methods, handler, isPublic }: ConfigType) => {
     try {
       await handler(req, res)
     } catch (error) {
-      console.log(error)
+      console.log("withHandlerError", error)
       return res.status(500).json({ error })
     }
   }
