@@ -5,7 +5,7 @@ import useSWR from "swr"
 import { Product } from "@prisma/client"
 import Link from "next/link"
 
-type User = {
+type UserType = {
   user: {
     id: number
     name: string
@@ -15,7 +15,8 @@ type User = {
 
 type DataType = {
   ok: boolean
-  product: Product & User
+  product: Product & UserType
+  relatedProducts: Product[]
 }
 
 const ItemDetail: NextPage = () => {
@@ -33,7 +34,7 @@ const ItemDetail: NextPage = () => {
             <div className="w-12 h-12 rounded-full bg-slate-300" />
             <div>
               <p className="text-sm font-medium text-gray-700">
-                {data ? data?.product.user.id : "Loading..."}
+                {data ? data?.product.user.name : "Loading..."}
               </p>
               <Link href={`/users/profiles/${data?.product.user.name}`}>
                 <a className="text-xs font-medium text-gray-500">
@@ -47,7 +48,7 @@ const ItemDetail: NextPage = () => {
               {data ? data.product.name : "Loading..."}
             </h1>
             <span className="text-2xl block mt-3 text-gray-900">
-              ${data ? data.product.price : "Loading..."}
+              {data ? `$${data.product.price}` : "Loading..."}
             </span>
             <p className=" my-6 text-gray-700">
               {data ? data.product.description : "Loading..."}
@@ -77,12 +78,18 @@ const ItemDetail: NextPage = () => {
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Similar items</h2>
           <div className=" mt-6 grid grid-cols-2 gap-4">
-            {[1, 2, 3, 4, 5, 6].map((_, i) => (
-              <div key={i}>
-                <div className="h-56 w-full mb-4 bg-slate-300" />
-                <h3 className="text-gray-700 -mb-1">Galaxy S60</h3>
-                <span className="text-sm font-medium text-gray-900">$6</span>
-              </div>
+            {data?.relatedProducts.map(product => (
+              <Link href={`/products/${product.id}`} key={product.id}>
+                <a>
+                  <div>
+                    <div className="h-56 w-full mb-4 bg-slate-300" />
+                    <h3 className="text-gray-700 -mb-1">{product.name}</h3>
+                    <span className="text-sm font-medium text-gray-900">
+                      ${product.price}
+                    </span>
+                  </div>
+                </a>
+              </Link>
             ))}
           </div>
         </div>

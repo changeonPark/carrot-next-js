@@ -24,8 +24,30 @@ const handler = async (
         },
       },
     })
-    console.log("product \n", product)
-    res.json({ ok: true, product })
+
+    const terms = product?.name.split(" ").map(word => ({
+      name: {
+        contains: word,
+      },
+    }))
+
+    let relatedProducts = null
+
+    if (terms) {
+      relatedProducts = await client.product.findMany({
+        where: {
+          OR: terms[0],
+          AND: {
+            id: {
+              not: product?.id,
+            },
+          },
+        },
+      })
+      console.log("relatedProducts: ", relatedProducts)
+    }
+
+    res.json({ ok: true, product, relatedProducts })
   } else {
     console.log("else")
   }
