@@ -17,7 +17,7 @@ const useMutation = <T, R>(url: string): [(data: T) => void, Status<R>] => {
       ...prev,
       loading: true,
     }))
-
+    // NextJS Server로 POST 통신
     fetch(url, {
       method: "POST",
       headers: {
