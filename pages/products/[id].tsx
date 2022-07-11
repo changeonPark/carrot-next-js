@@ -1,11 +1,12 @@
 import type { NextPage } from "next"
 import { Button, Layout } from "@components/index"
 import { useRouter } from "next/router"
-import useSWR from "swr"
+import useSWR, { useSWRConfig } from "swr"
 import { Product } from "@prisma/client"
 import Link from "next/link"
 import useMutation from "@libs/client/useMutation"
 import { cls } from "@libs/client/utils"
+import useUser from "@libs/client/useUser"
 
 type UserType = {
   user: {
@@ -23,21 +24,18 @@ type DataType = {
 }
 
 const ItemDetail: NextPage = () => {
+  const { user, isLoading } = useUser()
   const router = useRouter()
-  const { data, mutate } = useSWR<DataType>(
+  const { mutate: unboundedMutate } = useSWRConfig()
+  const { data, mutate: boundedMutate } = useSWR<DataType>(
     router.query.id ? `/api/products/${router.query.id}` : null
   )
   const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`)
   const onFavClick = () => {
     toggleFav({})
     if (!data) return
-    mutate(
-      {
-        ...data,
-        isLiked: !data.isLiked,
-      },
-      false
-    )
+    boundedMutate(prev => prev && { ...prev, isLiked: !prev.isLiked }, false)
+    // unboundedMutate("/api/users/me", (prev: any) => ({ ok: !prev.ok }), false)
   }
 
   return (
