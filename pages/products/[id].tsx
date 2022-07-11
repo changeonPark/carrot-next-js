@@ -2,23 +2,19 @@ import type { NextPage } from "next"
 import { Button, Layout } from "@components/index"
 import { useRouter } from "next/router"
 import useSWR, { useSWRConfig } from "swr"
-import { Product } from "@prisma/client"
+import { Product, User } from "@prisma/client"
 import Link from "next/link"
 import useMutation from "@libs/client/useMutation"
 import { cls } from "@libs/client/utils"
 import useUser from "@libs/client/useUser"
 
-type UserType = {
-  user: {
-    id: number
-    name: string
-    avatar: null | string
-  }
+type ProductWithUser = Product & {
+  user: User
 }
 
 type DataType = {
   ok: boolean
-  product: Product & UserType
+  product: ProductWithUser
   relatedProducts: Product[]
   isLiked: Boolean
 }
