@@ -8,7 +8,7 @@ const handler = async (
   res: NextApiResponse<ResponseType>
 ) => {
   const { token: payload } = req.body
-  console.log("confirm file payload", payload)
+  console.log("confirm file payload!", payload)
   const token = await client.token.findUnique({
     where: {
       payload,
@@ -30,4 +30,6 @@ const handler = async (
   res.json({ ok: true })
 }
 
-export default withApiSession(withHandler({ methods: ["POST"], handler }))
+export default withApiSession(
+  withHandler({ methods: ["POST"], handler, isPublic: true })
+)
