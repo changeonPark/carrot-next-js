@@ -6,6 +6,12 @@ type Status<R> = {
   error?: any
 }
 
+/**
+ * @param T 사용할 data 타입
+ * @param R request 타입
+ * @returns [(data: T) => void, Status<R>]
+ */
+
 const useMutation = <T, R>(url: string): [(data: T) => void, Status<R>] => {
   const [state, setState] = useState<Status<R>>({
     loading: false,
