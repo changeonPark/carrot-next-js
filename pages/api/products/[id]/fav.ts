@@ -13,6 +13,17 @@ const handler = async (
   } = req
   if (!id || !user) return res.status(404).json({ ok: false })
 
+  const post = await client.post.findUnique({
+    where: {
+      id: +id.toString(),
+    },
+    select: {
+      id: true,
+    },
+  })
+  if (!post)
+    return res.status(404).json({ ok: false, message: "Search Not Found." })
+
   const alreadyExists = await client.fav.findFirst({
     where: {
       productId: +id,
