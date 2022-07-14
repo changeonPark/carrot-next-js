@@ -9,9 +9,10 @@ const handler = async (
 ) => {
   const {
     query: { id },
+    session: { user },
   } = req
 
-  if (!id) return
+  if (!id || !user) return
 
   const post = await client.post.findUnique({
     where: {
@@ -47,12 +48,25 @@ const handler = async (
     },
   })
 
+  const isWondering = Boolean(
+    await client.wondering.findFirst({
+      where: {
+        postId: +id.toString(),
+        userId: user.id,
+      },
+      select: {
+        id: true,
+      },
+    })
+  )
+
   if (!post)
     return res.status(404).json({ ok: false, message: "Search Not Found." })
 
   res.json({
     ok: true,
     post,
+    isWondering,
   })
 }
 
