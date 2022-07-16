@@ -1,5 +1,5 @@
 import type { NextPage } from "next"
-import { Layout, Message } from "@components/index"
+import { Layout, Message } from "components/index"
 
 const Stream: NextPage = () => {
   return (

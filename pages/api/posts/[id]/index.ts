@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import withHandler from "@libs/server/withHandler"
-import client from "@libs/server/client"
-import withApiSession, { ResponseType } from "@libs/server/withApiSession"
+import withHandler from "libs/server/withHandler"
+import client from "libs/server/client"
+import withApiSession, { ResponseType } from "libs/server/withApiSession"
 
 const handler = async (
   req: NextApiRequest,
@@ -27,6 +27,7 @@ const handler = async (
         },
       },
       answers: {
+        //첫 10개만.. 페이지네이션
         select: {
           answer: true,
           id: true,

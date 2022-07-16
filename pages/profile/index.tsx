@@ -1,6 +1,6 @@
 import type { NextPage } from "next"
 import Link from "next/link"
-import { Layout } from "@components/index"
+import { Layout } from "components/index"
 
 const Profile: NextPage = () => {
   return (

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import client from "@libs/server/client"
-import { ResponseType } from "@libs/server/withApiSession"
-import withHandler from "@libs/server/withHandler"
+import client from "libs/server/client"
+import { ResponseType } from "libs/server/withApiSession"
+import withHandler from "libs/server/withHandler"
 import twilio from "twilio"
 import mail from "@sendgrid/mail"
 

@@ -1,5 +1,5 @@
 import type { NextPage } from "next"
-import { Button, Input, Layout, TextArea } from "@components/index"
+import { Button, Input, Layout, TextArea } from "components/index"
 
 const Create: NextPage = () => {
   return (

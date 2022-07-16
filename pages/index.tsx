@@ -1,6 +1,6 @@
 import type { NextPage } from "next"
-import { FloatingButton, Item, Layout } from "@components/index"
-import useUser from "@libs/client/useUser"
+import { FloatingButton, Item, Layout } from "components/index"
+import useUser from "libs/client/useUser"
 import useSWR from "swr"
 import { Product } from "@prisma/client"
 

@@ -1,11 +1,11 @@
 import type { NextPage } from "next"
-import { Layout, TextArea } from "@components/index"
+import { Layout, TextArea } from "components/index"
 import { useRouter } from "next/router"
 import useSWR from "swr"
 import { Answer, Post, User } from "@prisma/client"
 import Link from "next/link"
-import useMutation from "@libs/client/useMutation"
-import { cls } from "@libs/client/utils"
+import useMutation from "libs/client/useMutation"
+import { cls } from "libs/client/utils"
 import { useForm } from "react-hook-form"
 import { useEffect } from "react"
 
@@ -79,8 +79,8 @@ const CommunityPostDetail: NextPage = () => {
 
   useEffect(() => {
     if (answerData && answerData.ok) {
-      mutate()
       reset()
+      mutate()
     }
   }, [answerData, reset])
 
