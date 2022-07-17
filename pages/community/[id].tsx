@@ -43,9 +43,7 @@ const CommunityPostDetail: NextPage = () => {
     router.query.id ? `/api/posts/${router.query.id}` : null
   )
 
-  const [wonder, { loading }] = useMutation(
-    `/api/posts/${router.query.id}/wonder`
-  )
+  const [wonder, { loading }] = useMutation(`/api/posts/${router.query.id}/wonder`)
   const onWonderClick = () => {
     if (!data) return
     mutate(
@@ -67,12 +65,11 @@ const CommunityPostDetail: NextPage = () => {
     if (!loading) wonder({})
   }
 
-  const [sendAnswer, { data: answerData, loading: answerLoading }] =
-    useMutation<AnswerForm, AnswerResponse>(
-      `/api/posts/${router.query.id}/answers`
-    )
+  const [sendAnswer, { data: answerData, loading: answerLoading }] = useMutation<
+    AnswerForm,
+    AnswerResponse
+  >(`/api/posts/${router.query.id}/answers`)
   const onValid = (formData: AnswerForm) => {
-    console.log(formData)
     if (answerLoading) return
     sendAnswer(formData)
   }
@@ -82,15 +79,13 @@ const CommunityPostDetail: NextPage = () => {
       reset()
       mutate()
     }
-  }, [answerData, reset])
+  }, [answerData, reset, mutate])
 
   return (
     <Layout canGoBack>
       <div>
         {data && !data.ok ? (
-          <div className="w-full h-screen flex justify-center items-center">
-            {data?.message}
-          </div>
+          <div className="w-full h-screen flex justify-center items-center">{data?.message}</div>
         ) : (
           <>
             <span className="inline-flex my-3 ml-4 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
@@ -100,12 +95,8 @@ const CommunityPostDetail: NextPage = () => {
               <a className="flex mb-3 px-4 cursor-pointer pb-3  border-b items-center space-x-3">
                 <div className="w-10 h-10 rounded-full bg-slate-300" />
                 <div>
-                  <p className="text-sm font-medium text-gray-700">
-                    {data?.post?.user.name}
-                  </p>
-                  <p className="text-xs font-medium text-gray-500">
-                    View profile &rarr;
-                  </p>
+                  <p className="text-sm font-medium text-gray-700">{data?.post?.user.name}</p>
+                  <p className="text-xs font-medium text-gray-500">View profile &rarr;</p>
                 </div>
               </a>
             </Link>
@@ -165,9 +156,7 @@ const CommunityPostDetail: NextPage = () => {
                     <span className="text-sm block font-medium text-gray-700">
                       {answer.user.name}
                     </span>
-                    <span className="text-xs text-gray-500 block ">
-                      {answer.createdAt}
-                    </span>
+                    <span className="text-xs text-gray-500 block ">{answer.createdAt}</span>
                     <p className="text-gray-700 mt-2">{answer.answer}</p>
                   </div>
                 </div>

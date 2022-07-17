@@ -18,8 +18,8 @@ type ProductsResponse = {
 const Home: NextPage = () => {
   const { user, isLoading } = useUser()
   const { data } = useSWR<ProductsResponse>("/api/products")
-  console.log(user, isLoading)
-  console.log("products", data)
+  console.log("Home_user", user)
+  console.log("Home_products", data)
 
   return (
     <Layout title="홈" hasTabBar>

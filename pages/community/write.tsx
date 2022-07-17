@@ -5,10 +5,13 @@ import useMutation from "libs/client/useMutation"
 import { useEffect } from "react"
 import { Post } from "@prisma/client"
 import { useRouter } from "next/router"
+import useCoords, { UseCoord } from "libs/client/useCoords"
 
 type WriteForm = {
   question: string
 }
+
+type WriteFormWitheGEO = WriteForm & UseCoord
 
 type WriteResponse = {
   ok: boolean
@@ -16,15 +19,17 @@ type WriteResponse = {
 }
 
 const Write: NextPage = () => {
+  const { latitude, longitude } = useCoords()
+
   const { register, handleSubmit } = useForm<WriteForm>()
-  const [post, { loading, data }] = useMutation<WriteForm, WriteResponse>(
-    "/api/posts"
-  )
+  const [post, { loading, data }] = useMutation<
+    WriteFormWitheGEO,
+    WriteResponse
+  >("/api/posts")
 
   const onValid = (data: WriteForm) => {
     if (loading) return
-    console.log(data)
-    post(data)
+    post({ ...data, latitude, longitude })
   }
 
   const router = useRouter()

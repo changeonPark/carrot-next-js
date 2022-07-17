@@ -25,8 +25,6 @@ const Enter: NextPage = () => {
     MutationResponse
   >("/api/users/enter")
 
-  console.log(data)
-
   const [
     confirmToken,
     { loading: tokenLoading, data: tokenData, error: tokenError },
@@ -60,11 +58,9 @@ const Enter: NextPage = () => {
   const router = useRouter()
 
   useEffect(() => {
-    console.log(tokenData)
     if (tokenData?.ok) router.push("/")
   }, [tokenData, router])
 
-  console.log(loading, data, error)
   return (
     <div className="mt-16 px-4">
       <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>

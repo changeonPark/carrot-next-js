@@ -20,15 +20,13 @@ type UploadProductMutation = {
 const Upload: NextPage = () => {
   const { register, handleSubmit } = useForm<UploadProductForm>()
 
-  const [uploadProduct, { loading, data }] = useMutation<
-    UploadProductForm,
-    UploadProductMutation
-  >("/api/products")
+  const [uploadProduct, { loading, data }] = useMutation<UploadProductForm, UploadProductMutation>(
+    "/api/products"
+  )
   const router = useRouter()
 
   const onValid = (data: UploadProductForm) => {
     if (loading) return
-    console.log(data)
     uploadProduct(data)
   }
 
