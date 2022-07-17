@@ -3,6 +3,7 @@ import Link from "next/link"
 import { FloatingButton, Layout } from "components/index"
 import useSWR from "swr"
 import { Post, User } from "@prisma/client"
+import useCoords from "libs/client/useCoords"
 
 type PostWithUser = Post & {
   user: User
@@ -18,7 +19,10 @@ type PostsResponse = {
 }
 
 const Community: NextPage = () => {
-  const { data } = useSWR<PostsResponse>(`/api/posts`)
+  const { latitude, longitude } = useCoords()
+  const { data } = useSWR<PostsResponse>(
+    `/api/posts?latitude=${latitude}&longitude=${longitude}`
+  )
 
   console.log(data)
 
