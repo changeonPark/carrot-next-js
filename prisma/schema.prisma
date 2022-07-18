@@ -13,24 +13,24 @@ datasource db {
 }
 
 model User {
-  id              Int         @id @default(autoincrement())
-  phone           String?     @unique
-  email           String?     @unique
-  name            String
-  avatar          String?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  tokens          Token[]
-  products        Product[]
-  posts           Post[]
-  answers         Answer[]
-  wonderings      Wondering[]
-  wirrtenReivews  Review[]    @relation(name: "wirrtenReivews")
-  receivedReivews Review[]    @relation(name: "receivedReivews")
-  favs            Fav[]
-  sales           Sale[]
-  purchases       Purchase[]
-  record          Record[]
+  id             Int         @id @default(autoincrement())
+  phone          String?     @unique
+  email          String?     @unique
+  name           String
+  avatar         String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  tokens         Token[]
+  products       Product[]
+  posts          Post[]
+  answers        Answer[]
+  wonderings     Wondering[]
+  reviewWriter   Review[]    @relation(name: "reviewWriter")
+  reviewListener Review[]    @relation(name: "reviewListener")
+  favs           Fav[]
+  sales          Sale[]
+  purchases      Purchase[]
+  record         Record[]
 }
 
 model Token {
@@ -93,14 +93,15 @@ model Wondering {
 }
 
 model Review {
-  id           Int      @id @default(autoincrement())
-  createdAt    DateTime @default(now())
-  updateAt     DateTime @updatedAt
-  review       String   @db.MediumText
-  createdBy    User     @relation(name: "wirrtenReivews", fields: [createdById], references: [id], onDelete: Cascade)
-  createdById  Int
-  createdFor   User     @relation(name: "receivedReivews", fields: [createdForId], references: [id], onDelete: Cascade)
-  createdForId Int
+  id               Int      @id @default(autoincrement())
+  createdAt        DateTime @default(now())
+  updateAt         DateTime @updatedAt
+  review           String   @db.MediumText
+  score            Int      @default(1)
+  reviewWriter     User     @relation(name: "reviewWriter", fields: [reviewWriterId], references: [id], onDelete: Cascade)
+  reviewWriterId   Int
+  reviewListener   User     @relation(name: "reviewListener", fields: [reviewListenerId], references: [id], onDelete: Cascade)
+  reviewListenerId Int
 }
 
 model Fav {

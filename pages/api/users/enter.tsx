@@ -22,6 +22,7 @@ const handler = async (
   const { email, phone } = req.body
 
   const user = phone ? { phone } : email ? { email } : null
+  console.log(user)
 
   if (!user) return res.status(400).json({ ok: false })
 
