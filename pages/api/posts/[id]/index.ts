@@ -12,7 +12,7 @@ const handler = async (
     session: { user },
   } = req
 
-  if (!id || !user) return
+  if (!id || !user) return res.status(404).json({ ok: false })
 
   const post = await client.post.findUnique({
     where: {
