@@ -8,9 +8,13 @@ type UserResponse = {
   profile: User
 }
 
+const PUBLIC_LIST = ["enter"]
+
 const useUser = () => {
-  const { data, error } = useSWR<UserResponse>("/api/users/me")
   const router = useRouter()
+  const { data, error } = useSWR<UserResponse>(
+    PUBLIC_LIST.includes(router.pathname.split("/")[1]) ? null : "/api/users/me"
+  )
 
   useEffect(() => {
     if (data && !data.ok) {

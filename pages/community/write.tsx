@@ -1,5 +1,5 @@
 import type { NextPage } from "next"
-import { Button, TextArea, Layout } from "components/index"
+import { Button, TextArea, Layout } from "components"
 import { useForm } from "react-hook-form"
 import useMutation from "libs/client/useMutation"
 import { useEffect } from "react"

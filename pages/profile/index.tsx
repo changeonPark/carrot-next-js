@@ -1,6 +1,6 @@
 import type { NextPage } from "next"
 import Link from "next/link"
-import { Layout } from "components/index"
+import { Layout } from "components"
 import useUser from "libs/client/useUser"
 import useSWR from "swr"
 import { Review, User } from "@prisma/client"
@@ -80,7 +80,7 @@ const Profile: NextPage = () => {
               </span>
             </a>
           </Link>
-          <Link href="/profile/loved">
+          <Link href="/profile/favorites">
             <a className="flex flex-col items-center">
               <div className="w-14 h-14 text-white bg-orange-400 rounded-full flex items-center justify-center">
                 <svg

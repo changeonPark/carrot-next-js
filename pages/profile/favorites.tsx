@@ -2,14 +2,14 @@ import type { NextPage } from "next"
 import { Item, Layout } from "components"
 import ProductList from "components/ProductList"
 
-const Sold: NextPage = () => {
+const Loved: NextPage = () => {
   return (
-    <Layout title="판매내역" canGoBack>
+    <Layout title="관심목록" canGoBack>
       <div className="flex flex-col space-y-5 pb-10  divide-y">
-        <ProductList kind="sales" />
+        <ProductList kind="favs" />
       </div>
     </Layout>
   )
 }
 
-export default Sold
+export default Loved

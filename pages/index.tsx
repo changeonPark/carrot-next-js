@@ -1,10 +1,10 @@
 import type { NextPage } from "next"
-import { FloatingButton, Item, Layout } from "components/index"
+import { FloatingButton, Item, Layout } from "components"
 import useUser from "libs/client/useUser"
 import useSWR from "swr"
 import { Product } from "@prisma/client"
 
-type ProductWithCount = Product & {
+export type ProductWithCount = Product & {
   _count: {
     favs: number
   }

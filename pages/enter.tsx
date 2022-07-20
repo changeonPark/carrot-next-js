@@ -3,7 +3,7 @@ import type { NextPage } from "next"
 import { useForm } from "react-hook-form"
 import useMutation from "libs/client/useMutation"
 import { cls } from "libs/client/utils"
-import { Button, Input } from "components/index"
+import { Button, Input } from "components"
 import { useRouter } from "next/router"
 
 type EnterForm = {

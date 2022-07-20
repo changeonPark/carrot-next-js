@@ -1,4 +1,4 @@
-import { Message, Layout } from "components/index"
+import { Message, Layout } from "components"
 import type { NextPage } from "next"
 
 const ChatDetail: NextPage = () => {

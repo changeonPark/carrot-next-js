@@ -1,5 +1,5 @@
 import type { NextPage } from "next"
-import { Button, Input, Layout, TextArea } from "components/index"
+import { Button, Input, Layout, TextArea } from "components"
 import { useForm } from "react-hook-form"
 import useMutation from "libs/client/useMutation"
 import { useEffect } from "react"
@@ -20,9 +20,10 @@ type UploadProductMutation = {
 const Upload: NextPage = () => {
   const { register, handleSubmit } = useForm<UploadProductForm>()
 
-  const [uploadProduct, { loading, data }] = useMutation<UploadProductForm, UploadProductMutation>(
-    "/api/products"
-  )
+  const [uploadProduct, { loading, data }] = useMutation<
+    UploadProductForm,
+    UploadProductMutation
+  >("/api/products")
   const router = useRouter()
 
   const onValid = (data: UploadProductForm) => {
