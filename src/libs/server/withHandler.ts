@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { HandlerType } from "./withApiSession"
 
-type Method = "GET" | "POST" | "DELETE"
+export type Method = "GET" | "POST" | "DELETE" | "PUT" | "PATCH"
 
 type ConfigType = {
   methods: Method[]

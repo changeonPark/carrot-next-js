@@ -3,11 +3,19 @@ import { Button, Input, Layout } from "components"
 import { useForm } from "react-hook-form"
 import { useEffect } from "react"
 import useUser from "libs/client/useUser"
+import useMutation from "libs/client/useMutation"
+import { useRouter } from "next/router"
 
 type EditProfileForm = {
+  name?: string
   email?: string
   phone?: string
   formErrors?: string
+}
+
+type EditProfileResponse = {
+  ok: boolean
+  error?: string
 }
 
 const EditProfile: NextPage = () => {
@@ -21,19 +29,41 @@ const EditProfile: NextPage = () => {
     clearErrors,
   } = useForm<EditProfileForm>()
 
+  const router = useRouter()
+
+  const [editProfile, { data, loading }] = useMutation<
+    EditProfileForm,
+    EditProfileResponse
+  >(`/api/users/me`, "PUT")
+
+  const onValid = ({ email, phone, name }: EditProfileForm) => {
+    if (loading) return
+    if (email === "" && phone === "" && name === "") {
+      return setError("formErrors", {
+        message: "Email OR Phone number OR Name are required.",
+      })
+    }
+
+    editProfile({ email, phone, name })
+  }
+
   useEffect(() => {
+    if (user?.name) setValue("name", user.name)
     if (user?.email) setValue("email", user.email)
     if (user?.phone) setValue("phone", user.phone)
   }, [user, setValue])
 
-  const onValid = ({ email, phone }: EditProfileForm) => {
-    if (email === "" && phone === "") {
-      setError("formErrors", { message: "Email OR Phone number are required." })
-    } else {
-      console.log("clear errors")
-      clearErrors("formErrors")
+  useEffect(() => {
+    if (data && !data.ok) {
+      setError("formErrors", { message: data.error })
     }
-  }
+  }, [data, setError])
+
+  useEffect(() => {
+    if (data && data.ok) {
+      router.back()
+    }
+  }, [data, router])
 
   return (
     <Layout canGoBack title="Edit Profile">
@@ -54,13 +84,25 @@ const EditProfile: NextPage = () => {
           </label>
         </div>
         <Input
-          register={register("email")}
+          register={register("name", {
+            onBlur: () => clearErrors(),
+          })}
+          label="User Name"
+          name="name"
+          type="text"
+        />
+        <Input
+          register={register("email", {
+            onBlur: () => clearErrors(),
+          })}
           label="Email address"
           name="email"
           type="email"
         />
         <Input
-          register={register("phone")}
+          register={register("phone", {
+            onBlur: () => clearErrors(),
+          })}
           label="Phone number"
           name="phone"
           type="number"
@@ -71,7 +113,7 @@ const EditProfile: NextPage = () => {
             {errors.formErrors.message}
           </span>
         ) : null}
-        <Button text="Update profile" />
+        <Button text={loading ? "Loading..." : "Update profile"} />
       </form>
     </Layout>
   )

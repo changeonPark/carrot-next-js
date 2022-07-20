@@ -1,3 +1,4 @@
+import { Method } from "libs/server/withHandler"
 import { useState } from "react"
 
 type Status<R> = {
@@ -12,7 +13,10 @@ type Status<R> = {
  * @returns [(data: T) => void, Status<R>]
  */
 
-const useMutation = <T, R>(url: string): [(data: T) => void, Status<R>] => {
+const useMutation = <T, R>(
+  url: string,
+  method: Method = "POST"
+): [(data: T) => void, Status<R>] => {
   const [state, setState] = useState<Status<R>>({
     loading: false,
     data: undefined,
@@ -25,7 +29,7 @@ const useMutation = <T, R>(url: string): [(data: T) => void, Status<R>] => {
     }))
 
     fetch(url, {
-      method: "POST",
+      method,
       headers: {
         "Content-Type": "application/json",
       },
