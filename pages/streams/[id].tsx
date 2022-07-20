@@ -2,11 +2,22 @@ import type { NextPage } from "next"
 import { Layout, Message } from "components"
 import useSWR from "swr"
 import { useRouter } from "next/router"
-import { Stream } from "@prisma/client"
+import { Message as PrismaMessage, Stream } from "@prisma/client"
+import { useForm } from "react-hook-form"
+import useMutation from "libs/client/useMutation"
 
 type StreamResponse = {
   ok: boolean
   stream: Stream
+}
+
+type MessageForm = {
+  message: string
+}
+
+type MessageResponse = {
+  ok: boolean
+  message: PrismaMessage
 }
 
 const Stream: NextPage = () => {
@@ -14,6 +25,18 @@ const Stream: NextPage = () => {
   const { data } = useSWR<StreamResponse>(
     router.query.id ? `/api/streams/${router.query.id}` : null
   )
+
+  const { register, handleSubmit, reset } = useForm<MessageForm>()
+  const [sendMessage, { loading, data: sendMessageData }] = useMutation<
+    MessageForm,
+    MessageResponse
+  >(`/api/streams/${router.query.id}/messages`)
+
+  const onValid = (form: MessageForm) => {
+    if (loading) return
+    reset()
+    sendMessage(form)
+  }
 
   if (!data) return null
 
@@ -43,9 +66,13 @@ const Stream: NextPage = () => {
             <Message message="미쳤어" />
           </div>
           <div className="fixed py-2 bg-white  bottom-0 inset-x-0">
-            <div className="flex relative max-w-md items-center  w-full mx-auto">
+            <form
+              onSubmit={handleSubmit(onValid)}
+              className="flex relative max-w-md items-center  w-full mx-auto"
+            >
               <input
                 type="text"
+                {...register("message", { required: true })}
                 className="shadow-sm rounded-full w-full border-gray-300 focus:ring-orange-500 focus:outline-none pr-12 focus:border-orange-500"
               />
               <div className="absolute inset-y-0 flex py-1.5 pr-1.5 right-0">
@@ -53,7 +80,7 @@ const Stream: NextPage = () => {
                   &rarr;
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
