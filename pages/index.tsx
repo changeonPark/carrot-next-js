@@ -1,6 +1,5 @@
 import type { NextPage } from "next"
 import { FloatingButton, Item, Layout } from "components"
-import useUser from "libs/client/useUser"
 import useSWR from "swr"
 import { Product } from "@prisma/client"
 
@@ -16,9 +15,7 @@ type ProductsResponse = {
 }
 
 const Home: NextPage = () => {
-  const { user, isLoading } = useUser()
   const { data } = useSWR<ProductsResponse>("/api/products")
-  console.log("Home_user", user)
   console.log("Home_products", data)
 
   return (

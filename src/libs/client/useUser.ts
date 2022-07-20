@@ -8,16 +8,18 @@ type UserResponse = {
   profile: User
 }
 
-const PUBLIC_LIST = ["enter"]
+const PUBLIC_LIST = ["/enter"]
 
 const useUser = () => {
   const router = useRouter()
   const { data, error } = useSWR<UserResponse>(
-    PUBLIC_LIST.includes(router.pathname.split("/")[1]) ? null : "/api/users/me"
+    PUBLIC_LIST.includes(router.pathname) ? null : "/api/users/me"
   )
 
   useEffect(() => {
+    console.log("useUser Effect")
     if (data && !data.ok) {
+      console.log("useUser Replace")
       router.replace("/enter")
     }
   }, [data, router])

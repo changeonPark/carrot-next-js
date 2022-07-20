@@ -19,8 +19,6 @@ const Profile: NextPage = () => {
   const { user } = useUser()
   const { data } = useSWR<ReviewsResponse>("/api/reviews")
 
-  console.log(data)
-
   return (
     <Layout hasTabBar title="나의 캐럿">
       <div className="px-4">
