@@ -5,10 +5,24 @@ import { useRouter } from "next/router"
 import { Message as PrismaMessage, Stream } from "@prisma/client"
 import { useForm } from "react-hook-form"
 import useMutation from "libs/client/useMutation"
+import useUser from "libs/client/useUser"
+import { useEffect, useRef } from "react"
+
+type StreamMessage = {
+  message: string
+  user: {
+    avatar?: string
+    id: number
+  }
+}
+
+type StreamWithMessages = Stream & {
+  messages: StreamMessage[]
+}
 
 type StreamResponse = {
   ok: boolean
-  stream: Stream
+  stream: StreamWithMessages
 }
 
 type MessageForm = {
@@ -21,8 +35,9 @@ type MessageResponse = {
 }
 
 const Stream: NextPage = () => {
+  const { user } = useUser()
   const router = useRouter()
-  const { data } = useSWR<StreamResponse>(
+  const { data, mutate } = useSWR<StreamResponse>(
     router.query.id ? `/api/streams/${router.query.id}` : null
   )
 
@@ -32,11 +47,20 @@ const Stream: NextPage = () => {
     MessageResponse
   >(`/api/streams/${router.query.id}/messages`)
 
+  const scrollRef = useRef<HTMLDivElement>(null)
+
   const onValid = (form: MessageForm) => {
     if (loading) return
     reset()
     sendMessage(form)
   }
+
+  useEffect(() => {
+    if (sendMessageData && sendMessageData.ok) {
+      mutate()
+      scrollRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
+  }, [sendMessageData, mutate])
 
   if (!data) return null
 
@@ -61,9 +85,14 @@ const Stream: NextPage = () => {
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Live Chat</h2>
           <div className="py-10 pb-16 h-[50vh] overflow-y-scroll  px-4 space-y-4">
-            <Message message="Hi how much are you selling them for?" />
-            <Message message="I want ￦20,000" reversed />
-            <Message message="미쳤어" />
+            {data.stream.messages.map((message, index) => (
+              <Message
+                key={index}
+                message={message.message}
+                reversed={message.user.id === user?.id}
+              />
+            ))}
+            <div ref={scrollRef}></div>
           </div>
           <div className="fixed py-2 bg-white  bottom-0 inset-x-0">
             <form

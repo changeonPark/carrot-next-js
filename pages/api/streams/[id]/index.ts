@@ -17,6 +17,19 @@ const handler = async (
     where: {
       id: +id?.toString(),
     },
+    include: {
+      messages: {
+        select: {
+          message: true,
+          user: {
+            select: {
+              avatar: true,
+              id: true,
+            },
+          },
+        },
+      },
+    },
   })
 
   if (!stream) return res.status(404).json({ ok: false })
