@@ -1,10 +1,5 @@
 import { useEffect } from "react"
 
-type Props = {
-  target: HTMLDivElement | null
-  callback: IntersectionObserverCallback
-}
-
 const useInfinityScroll = (
   target: HTMLDivElement | null,
   callback: IntersectionObserverCallback
