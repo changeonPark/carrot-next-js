@@ -3,6 +3,7 @@ import Link from "next/link"
 import { FloatingButton, Layout } from "components"
 import { Stream } from "@prisma/client"
 import useSWR from "swr"
+import { useEffect, useRef, useState } from "react"
 
 type StreamsResponse = {
   ok: boolean
@@ -10,19 +11,43 @@ type StreamsResponse = {
 }
 
 const Streams: NextPage = () => {
-  const { data } = useSWR<StreamsResponse>(`/api/streams`)
+  const [page, setPage] = useState(1)
+  const [showData, setShowData] = useState<Stream[]>([])
+  const ref = useRef<HTMLDivElement>(null)
+  const { data, mutate } = useSWR<StreamsResponse>(`/api/streams?page=${page}`)
 
-  if (!data) return null
+  useEffect(() => {
+    let observer: IntersectionObserver
 
-  if (!data.ok) {
-    alert("network error..plz refresh")
-    return null
-  }
+    const callback: IntersectionObserverCallback = (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && data?.ok) {
+          console.log(entry.isIntersecting)
+          setPage(prev => prev + 1)
+        }
+      })
+    }
+
+    if (ref.current && data?.ok) {
+      observer = new IntersectionObserver(callback, {
+        threshold: 0.4,
+        rootMargin: "50px",
+      })
+      observer.observe(ref.current)
+    }
+
+    return () => observer && observer.disconnect()
+  }, [mutate, data?.ok])
+
+  useEffect(() => {
+    if (!data?.streams) return
+    setShowData(prev => [...prev, ...data.streams])
+  }, [data?.streams])
 
   return (
     <Layout hasTabBar title="라이브">
       <div className=" divide-y-[1px] space-y-4">
-        {data.streams.map(stream => (
+        {showData.map(stream => (
           <Link key={stream.id} href={`/streams/${stream.id}`}>
             <a className="pt-4 block  px-4">
               <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
@@ -32,6 +57,7 @@ const Streams: NextPage = () => {
             </a>
           </Link>
         ))}
+        <div ref={ref}></div>
         <FloatingButton href="/streams/create">
           <svg
             className="w-6 h-6"

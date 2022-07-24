@@ -27,7 +27,6 @@ const handler = async (
         },
       },
       answers: {
-        //첫 10개만.. 페이지네이션
         select: {
           answer: true,
           id: true,
@@ -39,6 +38,7 @@ const handler = async (
             },
           },
         },
+        take: 10,
       },
       _count: {
         select: {
