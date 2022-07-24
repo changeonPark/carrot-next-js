@@ -3,7 +3,8 @@ import Link from "next/link"
 import { FloatingButton, Layout } from "components"
 import { Stream } from "@prisma/client"
 import useSWR from "swr"
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import useInfinityScroll from "libs/client/useInfinityScroll"
 
 type StreamsResponse = {
   ok: boolean
@@ -14,30 +15,17 @@ const Streams: NextPage = () => {
   const [page, setPage] = useState(1)
   const [showData, setShowData] = useState<Stream[]>([])
   const ref = useRef<HTMLDivElement>(null)
-  const { data, mutate } = useSWR<StreamsResponse>(`/api/streams?page=${page}`)
+  const { data } = useSWR<StreamsResponse>(`/api/streams?page=${page}`)
 
-  useEffect(() => {
-    let observer: IntersectionObserver
-
-    const callback: IntersectionObserverCallback = (entries, observer) => {
+  const getNextPage: IntersectionObserverCallback = useCallback(
+    (entries, observer) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting && data?.ok) {
-          console.log(entry.isIntersecting)
-          setPage(prev => prev + 1)
-        }
+        if (entry.isIntersecting) setPage(prev => prev + 1)
       })
-    }
-
-    if (ref.current && data?.ok) {
-      observer = new IntersectionObserver(callback, {
-        threshold: 0.4,
-        rootMargin: "50px",
-      })
-      observer.observe(ref.current)
-    }
-
-    return () => observer && observer.disconnect()
-  }, [mutate, data?.ok])
+    },
+    []
+  )
+  useInfinityScroll(ref.current, getNextPage)
 
   useEffect(() => {
     if (!data?.streams) return
