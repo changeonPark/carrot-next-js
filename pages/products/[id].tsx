@@ -6,7 +6,7 @@ import { Product, User } from "@prisma/client"
 import Link from "next/link"
 import useMutation from "libs/client/useMutation"
 import { cls } from "libs/client/utils"
-import useUser from "libs/client/useUser"
+import Image from "next/image"
 
 type ProductWithUser = Product & {
   user: User
@@ -20,7 +20,6 @@ type DataType = {
 }
 
 const ItemDetail: NextPage = () => {
-  const { user, isLoading } = useUser()
   const router = useRouter()
   const { mutate: unboundedMutate } = useSWRConfig()
   const { data, mutate: boundedMutate } = useSWR<DataType>(
@@ -38,9 +37,31 @@ const ItemDetail: NextPage = () => {
     <Layout canGoBack>
       <div className="px-4  py-4">
         <div className="mb-8">
-          <div className="h-96 bg-slate-300" />
+          {data?.product.image ? (
+            <div className="relative h-96">
+              <Image
+                objectFit="cover"
+                src={`https://imagedelivery.net/GxMj85p4NcJHzSbEXoeCfQ/${data.product.image}/public`}
+                layout="fill"
+                alt="product"
+              />
+            </div>
+          ) : (
+            <div className="h-96 bg-slate-300" />
+          )}
           <div className="flex cursor-pointer py-3 border-t border-b items-center space-x-3">
-            <div className="w-12 h-12 rounded-full bg-slate-300" />
+            {data?.product.user.avatar ? (
+              <Image
+                width={48}
+                height={48}
+                className="w-12 h-12 rounded-full"
+                src={`https://imagedelivery.net/GxMj85p4NcJHzSbEXoeCfQ/${data.product.user.avatar}/avatar`}
+                alt="avatar"
+              />
+            ) : (
+              <div className="w-12 h-12 rounded-full bg-slate-300" />
+            )}
+
             <div>
               <p className="text-sm font-medium text-gray-700">
                 {data ? data?.product.user.name : "Loading..."}
