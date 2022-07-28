@@ -28,7 +28,7 @@ const handler = async (
   if (req.method === "PUT") {
     const {
       session: { user },
-      body: { email, phone, name },
+      body: { email, phone, name, avatarId },
     } = req
 
     const currentUser = await client.user.findUnique({
@@ -36,6 +36,7 @@ const handler = async (
         id: user?.id,
       },
     })
+
     if (email && email !== currentUser?.email) {
       const alreadyExists = Boolean(
         await client.user.findUnique({
@@ -104,6 +105,17 @@ const handler = async (
         },
         data: {
           name,
+        },
+      })
+    }
+
+    if (avatarId) {
+      await client.user.update({
+        where: {
+          id: user?.id,
+        },
+        data: {
+          avatar: avatarId,
         },
       })
     }
