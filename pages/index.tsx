@@ -16,7 +16,6 @@ type ProductsResponse = {
 
 const Home: NextPage = () => {
   const { data } = useSWR<ProductsResponse>("/api/products")
-  console.log("Home_products", data)
 
   return (
     <Layout title="홈" hasTabBar>
@@ -29,6 +28,7 @@ const Home: NextPage = () => {
             price={product.price}
             comments={1}
             hearts={product._count.favs}
+            image={product.image ? product.image : undefined}
           />
         ))}
         <FloatingButton href="/products/upload">

@@ -5,6 +5,7 @@ import useMutation from "libs/client/useMutation"
 import { useEffect, useState } from "react"
 import { Product } from "@prisma/client"
 import { useRouter } from "next/router"
+import Image from "next/image"
 
 type UploadProductForm = {
   name: string
@@ -80,10 +81,14 @@ const Upload: NextPage = () => {
         <div>
           {photoPreview ? (
             <label>
-              <img
-                className="w-full h-48 rounded-md aspect-video object-cover cursor-pointer"
-                src={photoPreview}
-              />
+              <div className="relative w-full h-48 rounded-md aspect-video cursor-pointer">
+                <Image
+                  objectFit="cover"
+                  layout="fill"
+                  src={photoPreview}
+                  alt="preview"
+                />
+              </div>
               <input
                 {...register("photo")}
                 className="hidden"
