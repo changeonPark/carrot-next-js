@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-server-import-in-page */
 import { NextRequest, userAgent, NextResponse } from "next/server"
 
 export function middleware(request: NextRequest) {

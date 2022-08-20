@@ -19,12 +19,8 @@ const Forms = () => {
     console.log("is valid")
   }
 
-  const onInvalid = (errors: FieldErrors) => {
-    console.log(errors)
-  }
-
   return (
-    <form onSubmit={handleSubmit(onValid, onInvalid)}>
+    <form onSubmit={handleSubmit(onValid)}>
       <input
         {...register("username", {
           required: "Username is required",
