@@ -84,7 +84,7 @@ const CommunityPostDetail: NextPage = () => {
   }, [answerData, reset, mutate])
 
   return (
-    <Layout canGoBack>
+    <Layout canGoBack seoTitle="Community">
       <div>
         {data && !data.ok ? (
           <div className="w-full h-screen flex justify-center items-center">
