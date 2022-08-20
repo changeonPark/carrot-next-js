@@ -1,6 +1,6 @@
 import type { NextPage } from "next"
 import { FloatingButton, Item, Layout } from "components"
-import useSWR from "swr"
+import useSWR, { SWRConfig } from "swr"
 import { Product } from "@prisma/client"
 import client from "libs/server/client"
 
@@ -15,20 +15,20 @@ type ProductsResponse = {
   products: ProductWithCount[]
 }
 
-const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
-  // const { data } = useSWR<ProductsResponse>("/api/products")
+const Home: NextPage = () => {
+  const { data } = useSWR<ProductsResponse>("/api/products")
 
   return (
     <Layout title="홈" hasTabBar seoTitle="Home">
       <div className="flex flex-col space-y-5 divide-y">
-        {products.map(product => (
+        {data?.products?.map(product => (
           <Item
             id={product.id}
             key={product.id}
             title={product.name}
             price={product.price}
             comments={1}
-            hearts={product._count.favs}
+            hearts={product._count?.favs || 0}
             image={product.image ? product.image : undefined}
           />
         ))}
@@ -54,17 +54,22 @@ const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
   )
 }
 
-export async function getServerSideProps() {
-  const products = await client.product.findMany({
-    include: {
-      _count: {
-        select: {
-          favs: true,
+const Page: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
+  return (
+    <SWRConfig
+      value={{
+        fallback: {
+          "/api/products": { ok: true, products },
         },
-      },
-    },
-  })
-  console.log(products)
+      }}
+    >
+      <Home />
+    </SWRConfig>
+  )
+}
+
+export async function getServerSideProps() {
+  const products = await client.product.findMany({})
 
   return {
     props: {
@@ -73,4 +78,4 @@ export async function getServerSideProps() {
   }
 }
 
-export default Home
+export default Page
