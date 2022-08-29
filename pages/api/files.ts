@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import withHandler from "libs/server/withHandler"
-import withApiSession, { ResponseType } from "libs/server/withApiSession"
+import withApiSession, { ResponseType } from "libs/server/withSession"
 
 const handler = async (
   req: NextApiRequest,

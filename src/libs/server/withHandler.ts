@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { HandlerType } from "./withApiSession"
+import { HandlerType } from "./withSession"
 
 export type Method = "GET" | "POST" | "DELETE" | "PUT" | "PATCH"
 
