@@ -17,6 +17,7 @@ const handler = async (
         },
       },
     })
+    console.log("test: ", req.headers.referer)
     res.json({
       ok: true,
       products,
