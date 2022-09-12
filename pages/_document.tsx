@@ -13,7 +13,6 @@ class CustomDocument extends Document {
         </Head>
         <body>
           <Main />
-          <NextScript />
           <Script
             src="https://developers.kakao.com/sdk/js/kakao.js"
             strategy="afterInteractive"
@@ -33,6 +32,7 @@ class CustomDocument extends Document {
               }
             }}
           />
+          <NextScript />
         </body>
       </Html>
     )
