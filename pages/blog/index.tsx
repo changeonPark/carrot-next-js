@@ -2,11 +2,13 @@ import { Layout } from "components"
 import { readdirSync, readFileSync } from "fs"
 import matter from "gray-matter"
 import { NextPage } from "next"
+import Link from "next/link"
 
 type Posts = {
   title: string
   date: string
   category: string
+  slug: string
 }
 
 const Blog: NextPage<{ posts: Posts[] }> = ({ posts }) => {
@@ -16,10 +18,14 @@ const Blog: NextPage<{ posts: Posts[] }> = ({ posts }) => {
       <ul>
         {posts.map((post, index) => (
           <li key={index} className="mb-5">
-            <h2 className="text-lg text-red-500">{post.title}</h2>
-            <h3>
-              {post.date} / {post.category}
-            </h3>
+            <Link href={`/blog/${post.slug}`}>
+              <a>
+                <h2 className="text-lg text-red-500">{post.title}</h2>
+                <h3>
+                  {post.date} / {post.category}
+                </h3>
+              </a>
+            </Link>
           </li>
         ))}
       </ul>
@@ -30,7 +36,8 @@ const Blog: NextPage<{ posts: Posts[] }> = ({ posts }) => {
 export async function getStaticProps() {
   const posts = readdirSync("posts").map(file => {
     const content = readFileSync(`./posts/${file}`, "utf-8")
-    return matter(content).data
+    const [slug, _] = file.split(".")
+    return { ...matter(content).data, slug }
   })
   console.log(posts)
   return {
