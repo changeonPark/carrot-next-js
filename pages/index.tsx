@@ -1,22 +1,22 @@
-import type { NextPage } from "next"
-import { FloatingButton, Item, Layout } from "components"
-import useSWR, { SWRConfig } from "swr"
-import { Product } from "@prisma/client"
-import client from "libs/server/client"
+import type { NextPage } from "next";
+import { FloatingButton, Item, Layout } from "components";
+import useSWR, { SWRConfig } from "swr";
+import { Product } from "@prisma/client";
+import client from "libs/server/client";
 
 export type ProductWithCount = Product & {
   _count: {
-    favs: number
-  }
-}
+    favs: number;
+  };
+};
 
 type ProductsResponse = {
-  ok: boolean
-  products: ProductWithCount[]
-}
+  ok: boolean;
+  products: ProductWithCount[];
+};
 
 const Home: NextPage = () => {
-  const { data } = useSWR<ProductsResponse>("/api/products")
+  const { data } = useSWR<ProductsResponse>("/api/products");
 
   return (
     <Layout title="홈" hasTabBar seoTitle="Home">
@@ -41,18 +41,13 @@ const Home: NextPage = () => {
             stroke="currentColor"
             aria-hidden="true"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
         </FloatingButton>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
 const Page: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
   return (
@@ -65,17 +60,18 @@ const Page: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
     >
       <Home />
     </SWRConfig>
-  )
-}
+  );
+};
 
 export async function getServerSideProps() {
-  const products = await client.product.findMany({})
+  const products = await client.product.findMany({});
+  await new Promise(resolve => setTimeout(resolve, 5000));
 
   return {
     props: {
       products: JSON.parse(JSON.stringify(products)),
     },
-  }
+  };
 }
 
-export default Page
+export default Page;
