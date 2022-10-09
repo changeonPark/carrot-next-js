@@ -1,28 +1,28 @@
-import type { NextPage } from "next"
-import Link from "next/link"
-import { FloatingButton, Layout } from "components"
-import useSWR from "swr"
-import { Post, User } from "@prisma/client"
-import useCoords from "libs/client/useCoords"
+import type { NextPage } from "next";
+import Link from "next/link";
+import { FloatingButton, Layout } from "components";
+import useSWR from "swr";
+import { Post, User } from "@prisma/client";
+import useCoords from "libs/client/useCoords";
 
 type PostWithUser = Post & {
-  user: User
+  user: User;
   _count: {
-    wonderings: number
-    answers: number
-  }
-}
+    wonderings: number;
+    answers: number;
+  };
+};
 
 type PostsResponse = {
-  ok: boolean
-  posts: PostWithUser[]
-}
+  ok: boolean;
+  posts: PostWithUser[];
+};
 
 const Community: NextPage = () => {
-  const { latitude, longitude } = useCoords()
+  const { latitude, longitude } = useCoords();
   const { data } = useSWR<PostsResponse>(
-    `/api/posts?latitude=${latitude}&longitude=${longitude}`
-  )
+    latitude && longitude ? `/api/posts?latitude=${latitude}&longitude=${longitude}` : null
+  );
 
   return (
     <Layout hasTabBar title="동네생활" seoTitle="Community">
@@ -98,7 +98,7 @@ const Community: NextPage = () => {
         </FloatingButton>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default Community
+export default Community;
