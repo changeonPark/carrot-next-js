@@ -1,17 +1,14 @@
-import { NextApiRequest, NextApiResponse } from "next"
-import withHandler from "libs/server/withHandler"
-import client from "libs/server/client"
-import withApiSession, { ResponseType } from "libs/server/withSession"
+import { NextApiRequest, NextApiResponse } from "next";
+import withHandler from "libs/server/withHandler";
+import client from "libs/server/client";
+import withApiSession, { ResponseType } from "libs/server/withSession";
 
-const handler = async (
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
-) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseType>) => {
   if (req.method === "POST") {
     const {
       body: { question, latitude, longitude },
       session: { user },
-    } = req
+    } = req;
 
     const post = await client.post.create({
       data: {
@@ -24,25 +21,23 @@ const handler = async (
           },
         },
       },
-    })
+    });
+
+    await res.revalidate("/community");
 
     res.json({
       ok: true,
       post,
-    })
+    });
   }
 
   if (req.method === "GET") {
     const {
       query: { latitude, longitude },
-    } = req
+    } = req;
 
-    const parsedLatitude = latitude
-      ? parseFloat(latitude.toString())
-      : undefined
-    const parsedLongitude = longitude
-      ? parseFloat(longitude.toString())
-      : undefined
+    const parsedLatitude = latitude ? parseFloat(latitude.toString()) : undefined;
+    const parsedLongitude = longitude ? parseFloat(longitude.toString()) : undefined;
 
     const posts = await client.post.findMany({
       include: {
@@ -73,15 +68,13 @@ const handler = async (
             },
           },
         }),
-    })
+    });
 
     res.json({
       ok: true,
       posts,
-    })
+    });
   }
-}
+};
 
-export default withApiSession(
-  withHandler({ methods: ["POST", "GET"], handler })
-)
+export default withApiSession(withHandler({ methods: ["POST", "GET"], handler }));
