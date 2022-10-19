@@ -137,7 +137,7 @@ const ItemDetail: NextPage<ItemDetailResponse> = ({ product, relatedProducts, is
 export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: [],
-    fallback: "blocking",
+    fallback: false,
   };
 };
 
@@ -184,7 +184,7 @@ export const getStaticProps: GetStaticProps = async (ctx: GetStaticPropsContext)
         },
       },
     });
-    console.log("relatedProducts: ", relatedProducts);
+    // console.log("relatedProducts: ", relatedProducts);
   }
 
   // const isLiked = Boolean(

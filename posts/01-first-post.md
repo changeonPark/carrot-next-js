@@ -12,4 +12,4 @@ Thank you for reading!
 
 - i
 - like
-- sex
+- develop

@@ -1,53 +1,49 @@
-import type { NextPage } from "next"
-import { Layout, TextArea } from "components"
-import { useRouter } from "next/router"
-import useSWR from "swr"
-import { Answer, Post, User } from "@prisma/client"
-import Link from "next/link"
-import useMutation from "libs/client/useMutation"
-import { cls } from "libs/client/utils"
-import { useForm } from "react-hook-form"
-import { useEffect } from "react"
+import type { NextPage } from "next";
+import { Layout, TextArea } from "components";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+import { Answer, Post, User } from "@prisma/client";
+import Link from "next/link";
+import useMutation from "libs/client/useMutation";
+import { cls } from "libs/client/utils";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 type AnswerWithUser = Answer & {
-  user: User
-}
+  user: User;
+};
 type PostWithUser = Post & {
-  user: User
-  answers: AnswerWithUser[]
+  user: User;
+  answers: AnswerWithUser[];
   _count: {
-    answers: number
-    wonderings: number
-  }
-}
+    answers: number;
+    wonderings: number;
+  };
+};
 type PostSWRResponse = {
-  ok: boolean
-  post: PostWithUser
-  isWondering: boolean
-  message?: string
-}
+  ok: boolean;
+  post: PostWithUser;
+  isWondering: boolean;
+  message?: string;
+};
 
 type AnswerForm = {
-  answer: string
-}
+  answer: string;
+};
 type AnswerResponse = {
-  ok: boolean
-}
+  ok: boolean;
+};
 
 const CommunityPostDetail: NextPage = () => {
-  const router = useRouter()
+  const router = useRouter();
 
-  const { register, handleSubmit, reset } = useForm<AnswerForm>()
+  const { register, handleSubmit, reset } = useForm<AnswerForm>();
 
-  const { data, mutate } = useSWR<PostSWRResponse>(
-    router.query.id ? `/api/posts/${router.query.id}` : null
-  )
+  const { data, mutate } = useSWR<PostSWRResponse>(router.query.id ? `/api/posts/${router.query.id}` : null);
 
-  const [wonder, { loading }] = useMutation(
-    `/api/posts/${router.query.id}/wonder`
-  )
+  const [wonder, { loading }] = useMutation(`/api/posts/${router.query.id}/wonder`);
   const onWonderClick = () => {
-    if (!data) return
+    if (!data) return;
     mutate(
       {
         ...data,
@@ -55,41 +51,36 @@ const CommunityPostDetail: NextPage = () => {
           ...data.post,
           _count: {
             ...data.post._count,
-            wonderings: data.isWondering
-              ? data.post._count.wonderings - 1
-              : data.post._count.wonderings + 1,
+            wonderings: data.isWondering ? data.post._count.wonderings - 1 : data.post._count.wonderings + 1,
           },
         },
         isWondering: !data.isWondering,
       },
       false
-    )
-    if (!loading) wonder({})
-  }
+    );
+    if (!loading) wonder({});
+  };
 
-  const [sendAnswer, { data: answerData, loading: answerLoading }] =
-    useMutation<AnswerForm, AnswerResponse>(
-      `/api/posts/${router.query.id}/answers`
-    )
+  const [sendAnswer, { data: answerData, loading: answerLoading }] = useMutation<AnswerForm, AnswerResponse>(
+    `/api/posts/${router.query.id}/answers`
+  );
   const onValid = (formData: AnswerForm) => {
-    if (answerLoading) return
-    sendAnswer(formData)
-  }
+    if (answerLoading) return;
+    sendAnswer(formData);
+  };
 
   useEffect(() => {
     if (answerData && answerData.ok) {
-      reset()
-      mutate()
+      reset();
+      mutate();
     }
-  }, [answerData, reset, mutate])
+  }, [answerData, reset, mutate]);
 
   return (
     <Layout canGoBack seoTitle="Community">
       <div>
         {data && !data.ok ? (
-          <div className="w-full h-screen flex justify-center items-center">
-            {data?.message}
-          </div>
+          <div className="w-full h-screen flex justify-center items-center">{data?.message}</div>
         ) : (
           <>
             <span className="inline-flex my-3 ml-4 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
@@ -99,12 +90,8 @@ const CommunityPostDetail: NextPage = () => {
               <a className="flex mb-3 px-4 cursor-pointer pb-3  border-b items-center space-x-3">
                 <div className="w-10 h-10 rounded-full bg-slate-300" />
                 <div>
-                  <p className="text-sm font-medium text-gray-700">
-                    {data?.post?.user.name}
-                  </p>
-                  <p className="text-xs font-medium text-gray-500">
-                    View profile &rarr;
-                  </p>
+                  <p className="text-sm font-medium text-gray-700">{data?.post?.user.name}</p>
+                  <p className="text-xs font-medium text-gray-500">View profile &rarr;</p>
                 </div>
               </a>
             </Link>
@@ -116,10 +103,7 @@ const CommunityPostDetail: NextPage = () => {
               <div className="flex px-4 space-x-5 mt-3 text-gray-700 py-2.5 border-t border-b-[2px]  w-full">
                 <button
                   onClick={() => onWonderClick()}
-                  className={cls(
-                    "flex space-x-2 items-center text-sm",
-                    data?.isWondering ? "text-green-600" : ""
-                  )}
+                  className={cls("flex space-x-2 items-center text-sm", data?.isWondering ? "text-green-600" : "")}
                 >
                   <svg
                     className="w-4 h-4"
@@ -161,12 +145,8 @@ const CommunityPostDetail: NextPage = () => {
                 <div className="flex items-start space-x-3">
                   <div className="w-8 h-8 bg-slate-200 rounded-full" />
                   <div>
-                    <span className="text-sm block font-medium text-gray-700">
-                      {answer.user.name}
-                    </span>
-                    <span className="text-xs text-gray-500 block ">
-                      {answer.createdAt.toString()}
-                    </span>
+                    <span className="text-sm block font-medium text-gray-700">{answer.user.name}</span>
+                    <span className="text-xs text-gray-500 block ">{answer.createdAt.toString()}</span>
                     <p className="text-gray-700 mt-2">{answer.answer}</p>
                   </div>
                 </div>
@@ -187,7 +167,7 @@ const CommunityPostDetail: NextPage = () => {
         )}
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default CommunityPostDetail
+export default CommunityPostDetail;

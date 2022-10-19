@@ -7,5 +7,3 @@ category: Sexy
 # Changeon, He is So Sexy!
 
 Sexy!
-
-Sex!

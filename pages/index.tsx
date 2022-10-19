@@ -65,7 +65,7 @@ const Page: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
 
 export async function getServerSideProps() {
   const products = await client.product.findMany({});
-  await new Promise(resolve => setTimeout(resolve, 5000));
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
   return {
     props: {
