@@ -1,33 +1,27 @@
-import React from "react"
-import Link from "next/link"
-import { cls } from "libs/client/utils"
-import { useRouter } from "next/router"
-import Head from "next/head"
+import React from "react";
+import Link from "next/link";
+import { cls } from "libs/client/utils";
+import { useRouter } from "next/router";
+import Head from "next/head";
 
 interface LayoutProps {
-  title?: string
-  canGoBack?: boolean
-  hasTabBar?: boolean
-  children: React.ReactNode
-  seoTitle: string
+  title?: string;
+  canGoBack?: boolean;
+  hasTabBar?: boolean;
+  children: React.ReactNode;
+  seoTitle?: string;
 }
 
-export default function Layout({
-  title,
-  canGoBack,
-  hasTabBar,
-  children,
-  seoTitle,
-}: LayoutProps) {
-  const router = useRouter()
+export default function Layout({ title, canGoBack, hasTabBar, children, seoTitle }: LayoutProps) {
+  const router = useRouter();
   const onClick = () => {
-    router.back()
-  }
+    router.back();
+  };
 
   return (
     <div>
       <Head>
-        <title>{seoTitle + " | " + "CarrotMarket"}</title>
+        <title>{seoTitle + " | CarrotMarket"}</title>
       </Head>
       <div className="bg-white w-full h-12 max-w-xl justify-center text-lg px-10 font-medium  fixed text-gray-800 border-b top-0  flex items-center">
         {canGoBack ? (
@@ -39,18 +33,11 @@ export default function Layout({
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M15 19l-7-7 7-7"
-              ></path>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
             </svg>
           </button>
         ) : null}
-        {title ? (
-          <span className={cls(canGoBack ? "mx-auto" : "", "")}>{title}</span>
-        ) : null}
+        {title ? <span className={cls(canGoBack ? "mx-auto" : "", "")}>{title}</span> : null}
       </div>
       <div className={cls("pt-12", hasTabBar ? "pb-24" : "")}>{children}</div>
       {hasTabBar ? (
@@ -59,9 +46,7 @@ export default function Layout({
             <a
               className={cls(
                 "flex flex-col items-center space-y-2 ",
-                router.pathname === "/"
-                  ? "text-orange-500"
-                  : "hover:text-gray-500 transition-colors"
+                router.pathname === "/" ? "text-orange-500" : "hover:text-gray-500 transition-colors"
               )}
             >
               <svg
@@ -85,9 +70,7 @@ export default function Layout({
             <a
               className={cls(
                 "flex flex-col items-center space-y-2 ",
-                router.pathname === "/community"
-                  ? "text-orange-500"
-                  : "hover:text-gray-500 transition-colors"
+                router.pathname === "/community" ? "text-orange-500" : "hover:text-gray-500 transition-colors"
               )}
             >
               <svg
@@ -111,9 +94,7 @@ export default function Layout({
             <a
               className={cls(
                 "flex flex-col items-center space-y-2 ",
-                router.pathname === "/chats"
-                  ? "text-orange-500"
-                  : "hover:text-gray-500 transition-colors"
+                router.pathname === "/chats" ? "text-orange-500" : "hover:text-gray-500 transition-colors"
               )}
             >
               <svg
@@ -137,9 +118,7 @@ export default function Layout({
             <a
               className={cls(
                 "flex flex-col items-center space-y-2 ",
-                router.pathname === "/live"
-                  ? "text-orange-500"
-                  : "hover:text-gray-500 transition-colors"
+                router.pathname === "/live" ? "text-orange-500" : "hover:text-gray-500 transition-colors"
               )}
             >
               <svg
@@ -163,9 +142,7 @@ export default function Layout({
             <a
               className={cls(
                 "flex flex-col items-center space-y-2 ",
-                router.pathname === "/profile"
-                  ? "text-orange-500"
-                  : "hover:text-gray-500 transition-colors"
+                router.pathname === "/profile" ? "text-orange-500" : "hover:text-gray-500 transition-colors"
               )}
             >
               <svg
@@ -188,5 +165,5 @@ export default function Layout({
         </nav>
       ) : null}
     </div>
-  )
+  );
 }

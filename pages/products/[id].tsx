@@ -35,6 +35,14 @@ const ItemDetail: NextPage<ItemDetailResponse> = ({ product, relatedProducts, is
     // unboundedMutate("/api/users/me", (prev: any) => ({ ok: !prev.ok }), false)
   };
 
+  if (router.isFallback) {
+    return (
+      <Layout title="Loading...Sorry">
+        <span>Loading!!</span>
+      </Layout>
+    );
+  }
+
   return (
     <Layout canGoBack seoTitle="Product">
       <div className="px-4  py-4">
@@ -137,7 +145,7 @@ const ItemDetail: NextPage<ItemDetailResponse> = ({ product, relatedProducts, is
 export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: [],
-    fallback: false,
+    fallback: true,
   };
 };
 
