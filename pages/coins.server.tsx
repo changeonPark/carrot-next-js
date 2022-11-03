@@ -1,20 +1,51 @@
 import { Suspense } from "react";
 
-let finished = false;
-
-function List() {
-  console.log("server Render..");
-  if (!finished) {
+const cache: any = {};
+function fetchData(url: string) {
+  if (!cache[url]) {
     throw Promise.all([
-      new Promise(resolve => setTimeout(resolve, 5000)),
-      new Promise(resolve => {
-        finished = true;
-        resolve("");
-      }),
+      fetch(url)
+        .then(r => r.json())
+        .then(json => (cache[url] = json)),
+      new Promise(resolve => setTimeout(resolve, Math.round(Math.random() * 10555))),
     ]);
   }
+  return cache[url];
+}
 
-  return <ul>xxxxx</ul>;
+function Coin({ id, name, symbol }: any) {
+  console.log(fetchData(`https://api.coinpaprika.com/v1/tickers/${id}`));
+  const newLocal = fetchData(`https://api.coinpaprika.com/v1/tickers/${id}`);
+  const {
+    quotes: {
+      USD: { price },
+    },
+  } = newLocal;
+
+  return (
+    <span>
+      {name} / {symbol}: ${price}
+    </span>
+  );
+}
+
+function List() {
+  const coins = fetchData("https://api.coinpaprika.com/v1/coins");
+  console.log("Server Parent component");
+  return (
+    <div>
+      <h4>List is done</h4>
+      <ul>
+        {coins.slice(0, 10).map((coin: any) => (
+          <li key={coin.id}>
+            <Suspense fallback={`Coin ${coin.name} is loading`}>
+              <Coin {...coin} />
+            </Suspense>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 const Coins = () => {
